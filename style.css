@@ -49,13 +49,6 @@ input[type="checkbox"] {
   padding: 12px 2px 22px;
 }
 
-.eyebrow {
-  margin: 0 0 8px;
-  color: var(--accent);
-  font-size: 14px;
-  font-weight: 800;
-}
-
 h1,
 h2,
 p {
@@ -67,6 +60,38 @@ h1 {
   font-size: clamp(32px, 5vw, 52px);
   line-height: 1.15;
   letter-spacing: 0;
+}
+
+.version-label {
+  display: inline-grid;
+  gap: 6px;
+  max-width: 760px;
+  margin: 16px 0 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: var(--accent-strong);
+  background: var(--accent-light);
+}
+
+.version-label span {
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.version-label p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.version-label ul {
+  margin: 2px 0 0;
+  padding-left: 1.2em;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
 }
 
 h2 {
@@ -140,10 +165,72 @@ button:focus {
   margin-top: 4px;
 }
 
+.mode-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.mode-button {
+  border: 1px solid var(--line);
+  color: var(--accent);
+  background: var(--accent-light);
+}
+
+.mode-button.active {
+  color: #fff;
+  background: var(--accent);
+}
+
+.mode-button:hover {
+  background: #dce8f5;
+}
+
+.mode-button.active:hover {
+  background: var(--accent-strong);
+}
+
+.section-note {
+  margin-bottom: 14px;
+  color: var(--muted);
+}
+
+.character-rule-box {
+  gap: 6px;
+}
+
+.character-rule-box .section-note {
+  margin: 0;
+}
+
+.character-rule-toggle {
+  justify-content: flex-start;
+}
+
+.character-rule-message {
+  margin: 4px 0 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: var(--accent-strong);
+  font-weight: 800;
+  background: var(--accent-light);
+}
+
+.quick-size-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
 .check-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
+}
+
+.prop-free-field {
+  margin-top: 14px;
 }
 
 .check-label {
@@ -219,6 +306,14 @@ button {
 .copy-button {
   width: auto;
   min-width: 140px;
+}
+
+.copy-button.copied {
+  background: #2f8f46;
+}
+
+.copy-button.copied:hover {
+  background: #277a3b;
 }
 
 #output {
@@ -301,9 +396,22 @@ button {
   color: var(--muted);
 }
 
+.app-footer {
+  padding: 22px 8px 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+  text-align: center;
+}
+
+.app-footer p {
+  margin: 0;
+}
+
 @media (max-width: 820px) {
   .form-grid,
   .check-grid,
+  .mode-buttons,
+  .quick-size-buttons,
   .actions {
     grid-template-columns: 1fr;
   }

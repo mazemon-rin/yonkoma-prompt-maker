@@ -3,17 +3,29 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>4コマプロンプトメーカー</title>
+    <title>選ぶだけイラストプロンプトメーカー</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <main class="app">
       <header class="app-header">
-        <p class="eyebrow">Prompt Maker</p>
-        <h1>4コマプロンプトメーカー</h1>
+        <h1>選ぶだけイラストプロンプトメーカー</h1>
         <p class="lead">
-          リストから選ぶだけで、画像生成AIにそのまま渡せる4コマ漫画用プロンプトを作成します。保存名を付けて複数のプロンプト案を管理できます。
+          リストから選ぶだけで、画像生成AIへそのまま渡せるイラスト用プロンプトを作成できます。
+          <br />
+          1枚絵と4コマ漫画を切り替えて利用できます。
         </p>
+        <div class="version-label" aria-label="現在のバージョン">
+          <span>Version 1.0 完成版</span>
+          <p>現在の安定版です。</p>
+          <p>今後のアップデート予定</p>
+          <ul>
+            <li>AIごとのプロンプト最適化</li>
+            <li>プロンプト品質診断</li>
+            <li>AI補完リスク診断</li>
+            <li>テーマ・舞台・登場人物の自動最適化</li>
+          </ul>
+        </div>
       </header>
 
       <section class="card" aria-labelledby="template-heading">
@@ -25,6 +37,15 @@
       </section>
 
       <form id="prompt-form">
+        <section class="card" aria-labelledby="mode-heading">
+          <h2 id="mode-heading">作成モード</h2>
+          <input id="workMode" data-save="workMode" type="hidden" value="single" />
+          <div class="mode-buttons" role="group" aria-label="作成モード">
+            <button class="mode-button active" type="button" data-work-mode="single">1枚絵</button>
+            <button class="mode-button" type="button" data-work-mode="yonkoma">4コマ漫画</button>
+          </div>
+        </section>
+
         <section class="card" aria-labelledby="form-heading">
           <h2 id="form-heading">リスト選択式フォーム</h2>
           <div class="form-grid">
@@ -37,11 +58,7 @@
             <div class="field">
               <label for="message">伝えたいこと</label>
               <select id="message" data-save="message"></select>
-            </div>
-
-            <div class="field wide">
-              <label for="hero">主人公設定</label>
-              <textarea id="hero" data-save="hero" rows="4"></textarea>
+              <input class="free-input" id="messageFree" data-save="messageFree" type="text" placeholder="伝えたいことを入力" hidden />
             </div>
 
             <div class="field">
@@ -56,40 +73,143 @@
               <input class="free-input" id="settingFree" data-save="settingFree" type="text" placeholder="舞台を入力" hidden />
             </div>
 
-            <div class="field">
-              <label for="storyPattern">4コマの展開パターン</label>
-              <select id="storyPattern" data-save="storyPattern"></select>
-            </div>
-
-            <div class="field">
-              <label for="punchline">オチ</label>
+            <div class="field" id="punchlineField">
+              <label for="punchline">最後の印象</label>
               <select id="punchline" data-save="punchline"></select>
-              <input class="free-input" id="punchlineFree" data-save="punchlineFree" type="text" placeholder="オチを入力" hidden />
+              <input class="free-input" id="punchlineFree" data-save="punchlineFree" type="text" placeholder="最後の印象を入力" hidden />
             </div>
 
             <div class="field">
               <label for="style">絵柄</label>
               <select id="style" data-save="style"></select>
+              <input class="free-input" id="styleFree" data-save="styleFree" type="text" placeholder="絵柄を入力" hidden />
             </div>
 
             <div class="field">
               <label for="mood">色・雰囲気</label>
               <select id="mood" data-save="mood"></select>
+              <input class="free-input" id="moodFree" data-save="moodFree" type="text" placeholder="色・雰囲気を入力" hidden />
             </div>
 
             <div class="field">
               <label for="usage">用途</label>
               <select id="usage" data-save="usage"></select>
+              <input class="free-input" id="usageFree" data-save="usageFree" type="text" placeholder="用途を入力" hidden />
+            </div>
+
+            <div class="field">
+              <label for="aiModel">画像生成AIの種類</label>
+              <select id="aiModel" data-save="aiModel"></select>
+              <input class="free-input" id="aiModelFree" data-save="aiModelFree" type="text" placeholder="画像生成AIの種類を入力" hidden />
             </div>
 
             <div class="field">
               <label for="size">サイズ・比率</label>
               <select id="size" data-save="size"></select>
+              <input class="free-input" id="sizeFree" data-save="sizeFree" type="text" placeholder="サイズ・比率を入力" hidden />
             </div>
           </div>
         </section>
 
-        <section class="card" aria-labelledby="panel-heading">
+        <section class="card" aria-labelledby="instagram-size-heading">
+          <h2 id="instagram-size-heading">Instagram用サイズ</h2>
+          <p class="section-note">Instagram向けに使いやすいサイズをワンクリックで指定できます。</p>
+          <div class="quick-size-buttons">
+            <button type="button" class="secondary-button" data-instagram-size="square">Instagram投稿 正方形</button>
+            <button type="button" class="secondary-button" data-instagram-size="reel">Instagramリール 縦長</button>
+            <button type="button" class="secondary-button" data-instagram-size="story">Instagramストーリーズ 縦長</button>
+            <button type="button" class="secondary-button" data-instagram-size="landscape">Instagram横長投稿</button>
+          </div>
+        </section>
+
+        <section class="card" aria-labelledby="hero-heading">
+          <h2 id="hero-heading">主人公設定</h2>
+          <div class="form-grid">
+            <div class="field wide">
+              <label for="heroReferenceType">主人公タイプ</label>
+              <select id="heroReferenceType" data-save="heroReferenceType"></select>
+              <input class="free-input" id="heroReferenceTypeFree" data-save="heroReferenceTypeFree" type="text" placeholder="主人公タイプを入力" hidden />
+            </div>
+
+            <div class="field">
+              <label for="heroAge">主人公の年代</label>
+              <select id="heroAge" data-save="heroAge"></select>
+              <input class="free-input" id="heroAgeFree" data-save="heroAgeFree" type="text" placeholder="主人公の年代を入力" hidden />
+            </div>
+
+            <div class="field">
+              <label for="heroType">主人公の性別・雰囲気</label>
+              <select id="heroType" data-save="heroType"></select>
+              <input class="free-input" id="heroTypeFree" data-save="heroTypeFree" type="text" placeholder="主人公の性別・雰囲気を入力" hidden />
+            </div>
+
+            <div class="field">
+              <label for="heroPersonality">主人公の性格・雰囲気</label>
+              <select id="heroPersonality" data-save="heroPersonality"></select>
+              <input class="free-input" id="heroPersonalityFree" data-save="heroPersonalityFree" type="text" placeholder="性格・雰囲気を入力" hidden />
+            </div>
+
+            <div class="field">
+              <label for="heroExpression">主人公の表情</label>
+              <select id="heroExpression" data-save="heroExpression"></select>
+              <input class="free-input" id="heroExpressionFree" data-save="heroExpressionFree" type="text" placeholder="表情を入力" hidden />
+            </div>
+
+            <div class="field">
+              <label for="heroClothes">主人公の服装</label>
+              <select id="heroClothes" data-save="heroClothes"></select>
+              <input class="free-input" id="heroClothesFree" data-save="heroClothesFree" type="text" placeholder="服装を入力" hidden />
+            </div>
+
+            <div class="field">
+              <label for="heroHair">主人公の髪型</label>
+              <select id="heroHair" data-save="heroHair"></select>
+              <input class="free-input" id="heroHairFree" data-save="heroHairFree" type="text" placeholder="髪型を入力" hidden />
+            </div>
+
+            <div class="field">
+              <label for="heroRole">主人公の役割</label>
+              <select id="heroRole" data-save="heroRole"></select>
+              <input class="free-input" id="heroRoleFree" data-save="heroRoleFree" type="text" placeholder="役割を入力" hidden />
+            </div>
+
+            <div class="field wide">
+              <label for="heroMemo">主人公の追加メモ</label>
+              <textarea
+                id="heroMemo"
+                data-save="heroMemo"
+                rows="3"
+                placeholder="例：全コマで同じ人物に見えるようにする。怖い表情にしない。"
+              ></textarea>
+            </div>
+
+            <div class="field wide character-rule-box">
+              <label class="check-label character-rule-toggle" for="useCharacterRule">
+                <input id="useCharacterRule" data-save="useCharacterRule" type="checkbox" />
+                <span>人物ルールを参照する</span>
+              </label>
+              <p class="section-note">キャラクターの顔・服装・雰囲気を統一したい場合に使います</p>
+              <p id="characterRuleMessage" class="character-rule-message" hidden>
+                Chatに人物ルール画像を貼り付けてください。
+              </p>
+            </div>
+
+            <div class="field wide character-rule-box">
+              <label class="check-label character-rule-toggle" for="useMasterImage">
+                <input id="useMasterImage" data-save="useMasterImage" type="checkbox" />
+                <span>基準画像（マスターキャラクター）を参照する</span>
+              </label>
+              <p class="section-note">
+                主人公を同一キャラクターとして描く場合に使用します。Chatへ ①基準画像 ②人物ルール の順番で貼り付けてください。
+              </p>
+              <p id="masterImageMessage" class="character-rule-message" hidden>
+                Chatに基準画像（マスターキャラクター）を貼り付けてください。
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" id="yonkomaPanelSection" aria-labelledby="panel-heading">
           <h2 id="panel-heading">4コマごとの内容選択</h2>
           <div class="form-grid">
             <div class="field">
@@ -119,13 +239,31 @@
         </section>
 
         <section class="card" aria-labelledby="elements-heading">
-          <h2 id="elements-heading">入れたい要素</h2>
+          <h2 id="elements-heading">必須の小物（必要な場合のみ）</h2>
           <div id="elements" class="check-grid"></div>
+          <div class="field prop-free-field">
+            <label for="elementsFree">その他の小物</label>
+            <input
+              id="elementsFree"
+              data-save="elementsFree"
+              type="text"
+              placeholder="例：ノートパソコン、スマートフォンなど。必要な場合だけ入力"
+            />
+          </div>
         </section>
 
         <section class="card" aria-labelledby="avoid-heading">
           <h2 id="avoid-heading">避けたいこと</h2>
           <div id="avoid" class="check-grid"></div>
+          <div class="field prop-free-field">
+            <label for="avoidFree">その他の避けたいこと</label>
+            <input
+              id="avoidFree"
+              data-save="avoidFree"
+              type="text"
+              placeholder="例：暗すぎる表情、過度な装飾など"
+            />
+          </div>
         </section>
 
         <section class="card" aria-labelledby="memo-heading">
@@ -176,6 +314,10 @@
         <p id="savedEmpty" class="empty-message">まだ保存されたプロンプトはありません。</p>
         <div id="savedList" class="saved-list"></div>
       </section>
+
+      <footer class="app-footer">
+        <p>© 2026 mazemon-rin. 無断転載・複製・改変・再配布を禁じます</p>
+      </footer>
     </main>
 
     <script src="script.js"></script>

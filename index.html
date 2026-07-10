@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>4コマプロンプトメーカー</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="app-header">
+        <p class="eyebrow">Prompt Maker</p>
+        <h1>4コマプロンプトメーカー</h1>
+        <p class="lead">
+          リストから選ぶだけで、画像生成AIにそのまま渡せる4コマ漫画用プロンプトを作成します。保存名を付けて複数のプロンプト案を管理できます。
+        </p>
+      </header>
+
+      <section class="card" aria-labelledby="template-heading">
+        <h2 id="template-heading">テンプレート選択</h2>
+        <div class="field">
+          <label for="template">テンプレート</label>
+          <select id="template" data-save="template"></select>
+        </div>
+      </section>
+
+      <form id="prompt-form">
+        <section class="card" aria-labelledby="form-heading">
+          <h2 id="form-heading">リスト選択式フォーム</h2>
+          <div class="form-grid">
+            <div class="field">
+              <label for="theme">テーマ</label>
+              <select id="theme" data-save="theme"></select>
+              <input class="free-input" id="themeFree" data-save="themeFree" type="text" placeholder="テーマを入力" hidden />
+            </div>
+
+            <div class="field">
+              <label for="message">伝えたいこと</label>
+              <select id="message" data-save="message"></select>
+            </div>
+
+            <div class="field wide">
+              <label for="hero">主人公設定</label>
+              <textarea id="hero" data-save="hero" rows="4"></textarea>
+            </div>
+
+            <div class="field">
+              <label for="characters">他の登場人物</label>
+              <select id="characters" data-save="characters"></select>
+              <input class="free-input" id="charactersFree" data-save="charactersFree" type="text" placeholder="登場人物を入力" hidden />
+            </div>
+
+            <div class="field">
+              <label for="setting">舞台</label>
+              <select id="setting" data-save="setting"></select>
+              <input class="free-input" id="settingFree" data-save="settingFree" type="text" placeholder="舞台を入力" hidden />
+            </div>
+
+            <div class="field">
+              <label for="storyPattern">4コマの展開パターン</label>
+              <select id="storyPattern" data-save="storyPattern"></select>
+            </div>
+
+            <div class="field">
+              <label for="punchline">オチ</label>
+              <select id="punchline" data-save="punchline"></select>
+              <input class="free-input" id="punchlineFree" data-save="punchlineFree" type="text" placeholder="オチを入力" hidden />
+            </div>
+
+            <div class="field">
+              <label for="style">絵柄</label>
+              <select id="style" data-save="style"></select>
+            </div>
+
+            <div class="field">
+              <label for="mood">色・雰囲気</label>
+              <select id="mood" data-save="mood"></select>
+            </div>
+
+            <div class="field">
+              <label for="usage">用途</label>
+              <select id="usage" data-save="usage"></select>
+            </div>
+
+            <div class="field">
+              <label for="size">サイズ・比率</label>
+              <select id="size" data-save="size"></select>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" aria-labelledby="panel-heading">
+          <h2 id="panel-heading">4コマごとの内容選択</h2>
+          <div class="form-grid">
+            <div class="field">
+              <label for="panel1Pattern">1コマ目のパターン</label>
+              <select id="panel1Pattern" data-save="panel1Pattern"></select>
+              <input class="free-input" id="panel1Free" data-save="panel1Free" type="text" placeholder="1コマ目の内容を入力" hidden />
+            </div>
+
+            <div class="field">
+              <label for="panel2Pattern">2コマ目のパターン</label>
+              <select id="panel2Pattern" data-save="panel2Pattern"></select>
+              <input class="free-input" id="panel2Free" data-save="panel2Free" type="text" placeholder="2コマ目の内容を入力" hidden />
+            </div>
+
+            <div class="field">
+              <label for="panel3Pattern">3コマ目のパターン</label>
+              <select id="panel3Pattern" data-save="panel3Pattern"></select>
+              <input class="free-input" id="panel3Free" data-save="panel3Free" type="text" placeholder="3コマ目の内容を入力" hidden />
+            </div>
+
+            <div class="field">
+              <label for="panel4Pattern">4コマ目のパターン</label>
+              <select id="panel4Pattern" data-save="panel4Pattern"></select>
+              <input class="free-input" id="panel4Free" data-save="panel4Free" type="text" placeholder="4コマ目の内容を入力" hidden />
+            </div>
+          </div>
+        </section>
+
+        <section class="card" aria-labelledby="elements-heading">
+          <h2 id="elements-heading">入れたい要素</h2>
+          <div id="elements" class="check-grid"></div>
+        </section>
+
+        <section class="card" aria-labelledby="avoid-heading">
+          <h2 id="avoid-heading">避けたいこと</h2>
+          <div id="avoid" class="check-grid"></div>
+        </section>
+
+        <section class="card" aria-labelledby="memo-heading">
+          <h2 id="memo-heading">追加メモ</h2>
+          <div class="field">
+            <label for="memo">任意メモ</label>
+            <textarea
+              id="memo"
+              data-save="memo"
+              rows="4"
+              placeholder="例：セリフは少なめにする。note読者向けにやさしくする。初心者が共感できる内容にする。"
+            ></textarea>
+          </div>
+        </section>
+
+        <section class="card" aria-labelledby="save-heading">
+          <h2 id="save-heading">保存名</h2>
+          <div class="field">
+            <label for="saveName">保存名</label>
+            <input
+              id="saveName"
+              data-save="saveName"
+              type="text"
+              placeholder="例：はじめて挑戦してみた話"
+            />
+          </div>
+        </section>
+
+        <section class="actions" aria-label="操作">
+          <button class="primary-button" type="submit">プロンプトを生成</button>
+          <button class="secondary-button" id="saveButton" type="button">入力内容を保存</button>
+          <button class="secondary-button" id="loadButton" type="button">保存内容を読み込み</button>
+          <button class="danger-button" id="resetButton" type="button">リセット</button>
+        </section>
+      </form>
+
+      <section class="card output-card" aria-labelledby="output-heading">
+        <div class="output-header">
+          <h2 id="output-heading">コピー用の完成プロンプト</h2>
+          <button class="copy-button" id="copyButton" type="button">コピー</button>
+        </div>
+        <textarea id="output" rows="20" readonly placeholder="生成されたプロンプトがここに表示されます。"></textarea>
+        <p id="status" class="status" role="status" aria-live="polite"></p>
+      </section>
+
+      <section class="card saved-card" aria-labelledby="saved-heading">
+        <h2 id="saved-heading">保存したプロンプト一覧</h2>
+        <p id="savedEmpty" class="empty-message">まだ保存されたプロンプトはありません。</p>
+        <div id="savedList" class="saved-list"></div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
